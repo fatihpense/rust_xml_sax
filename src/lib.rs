@@ -13,7 +13,7 @@ pub trait SAXAttribute {
     // fn get_index() -> usize;
     fn get_value(&self) -> &str;
     // fn get_local_name() -> String;
-    // fn get_qualified_name() -> String;
+    fn get_qualified_name(&self) -> &str;
 }
 
 
