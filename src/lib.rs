@@ -8,7 +8,6 @@ pub trait SAXAttributes {
     fn get_by_index(&self, index: usize) -> Option<Box<SAXAttribute>>;
 }
 
-
 pub trait SAXAttribute {
     // fn get_index() -> usize;
     fn get_value(&self) -> &str;
@@ -16,10 +15,21 @@ pub trait SAXAttribute {
     fn get_qualified_name(&self) -> &str;
 }
 
-
 pub trait ContentHandler {
+    fn start_document(&mut self);
+    fn end_document(&mut self);
+
     fn start_element(&mut self, qualified_name: &str, attributes: &SAXAttributes); //need attributes
     fn end_element(&mut self, name: &str);
     fn characters(&mut self, characters: &str);
+
+    //fn start_prefix_mapping(&mut self, prefix: &str , uri: &str);
+    //fn end_prefix_mapping(&mut self, prefix: &str , uri: &str);
+}
+
+pub trait StatsHandler {
     fn offset(&mut self, offset: usize);
 }
+
+
+//ErrorHandler
