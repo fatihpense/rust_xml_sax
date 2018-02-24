@@ -11,16 +11,23 @@ pub trait SAXAttributes {
 pub trait SAXAttribute {
     // fn get_index() -> usize;
     fn get_value(&self) -> &str;
-    // fn get_local_name() -> String;
+    fn get_local_name(&self) -> &str;
     fn get_qualified_name(&self) -> &str;
+    fn get_uri(&self) -> &str;
 }
 
 pub trait ContentHandler {
     fn start_document(&mut self);
     fn end_document(&mut self);
 
-    fn start_element(&mut self, qualified_name: &str, attributes: &SAXAttributes); //need attributes
-    fn end_element(&mut self, name: &str);
+    fn start_element(
+        &mut self,
+        uri: &str,
+        local_name: &str,
+        qualified_name: &str,
+        attributes: &SAXAttributes,
+    );
+    fn end_element(&mut self, uri: &str, local_name: &str, qualified_name: &str);
     fn characters(&mut self, characters: &str);
 
     //fn start_prefix_mapping(&mut self, prefix: &str , uri: &str);
@@ -30,6 +37,5 @@ pub trait ContentHandler {
 pub trait StatsHandler {
     fn offset(&mut self, offset: usize);
 }
-
 
 //ErrorHandler
