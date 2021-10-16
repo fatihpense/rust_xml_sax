@@ -39,3 +39,28 @@ pub trait StatsHandler {
 }
 
 //ErrorHandler
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct StartElement<'a> {
+    pub name: &'a str,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct EndElement<'a> {
+    pub name: &'a str,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum Event<'a> {
+    StartDocument,
+    EndDocument,
+    StartElement(StartElement<'a>),
+    EndElement(EndElement<'a>),
+    Characters(&'a str),
+    // Comment(BytesText<'a>),
+    // CData(BytesText<'a>),
+    // Decl(BytesDecl<'a>),
+    // PI(BytesText<'a>),
+    // DocType(BytesText<'a>),
+    // Eof
+}
