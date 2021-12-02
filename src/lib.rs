@@ -1,11 +1,12 @@
+//old push
 pub trait SAXAttributes {
     fn get_length(&self) -> usize;
     // Need for boxing https://doc.rust-lang.org/book/trait-objects.html
-    fn iter(&self) -> Box<Iterator<Item = Box<SAXAttribute>>>;
+    fn iter(&self) -> Box<dyn Iterator<Item = Box<dyn SAXAttribute>>>;
     // fn get_by_qualified_name(&mut self, index: usize) -> Option<Attribute>;
     // when using trait as object use box otherwise:
     // the trait `std::marker::Sized` is not implemented for `sax::SAXAttribute + 'static`
-    fn get_by_index(&self, index: usize) -> Option<Box<SAXAttribute>>;
+    fn get_by_index(&self, index: usize) -> Option<Box<dyn SAXAttribute>>;
 }
 
 pub trait SAXAttribute {
@@ -25,7 +26,7 @@ pub trait ContentHandler {
         uri: &str,
         local_name: &str,
         qualified_name: &str,
-        attributes: &SAXAttributes,
+        attributes: &dyn SAXAttributes,
     );
     fn end_element(&mut self, uri: &str, local_name: &str, qualified_name: &str);
     fn characters(&mut self, characters: &str);
@@ -40,14 +41,32 @@ pub trait StatsHandler {
 
 //ErrorHandler
 
+// pull
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Attribute<'a> {
+    pub value: &'a str,
+    pub qualified_name: &'a str,
+    // fn get_value(&self) -> &str;
+    // fn get_local_name(&self) -> &str;
+    // fn get_qualified_name(&self) -> &str;
+    // fn get_uri(&self) -> &str;
+}
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct StartElement<'a> {
     pub name: &'a str,
+    pub attributes: Vec<Attribute<'a>>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct EndElement<'a> {
     pub name: &'a str,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Reference<'a> {
+    pub original: &'a str,
+    pub resolved: &'a str,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -57,6 +76,7 @@ pub enum Event<'a> {
     StartElement(StartElement<'a>),
     EndElement(EndElement<'a>),
     Characters(&'a str),
+    Reference(Reference<'a>),
     // Comment(BytesText<'a>),
     // CData(BytesText<'a>),
     // Decl(BytesDecl<'a>),

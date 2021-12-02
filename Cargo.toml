@@ -1,6 +1,6 @@
 [package]
 name = "xml_sax"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Fatih Pense <fatihpense@gmail.com>"]
 
 description = "A convenient XML SAX interface which can have several implementations. Current implementations: xml_oxide."
@@ -8,5 +8,5 @@ repository = "https://github.com/fatihpense/rust_xml_sax"
 keywords = ["XML", "SAX", "parser"]
 categories = ["parsing"]
 license = "MIT"
-
+edition = "2021"
 [dependencies]
