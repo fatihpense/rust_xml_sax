@@ -1,6 +1,6 @@
 [package]
 name = "xml_sax"
-version = "0.0.5"
+version = "0.0.6"
 authors = ["Fatih Pense <fatihpense@gmail.com>"]
 
 description = "A convenient XML SAX interface which can have several implementations. Current implementations: xml_oxide."
