@@ -46,7 +46,9 @@ pub trait StatsHandler {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Attribute<'a> {
     pub value: &'a str,
-    pub qualified_name: &'a str,
+    pub name: &'a str,
+    //pub local_name: &'a str,
+
     // fn get_value(&self) -> &str;
     // fn get_local_name(&self) -> &str;
     // fn get_qualified_name(&self) -> &str;
@@ -56,6 +58,7 @@ pub struct Attribute<'a> {
 pub struct StartElement<'a> {
     pub name: &'a str,
     pub attributes: Vec<Attribute<'a>>,
+    pub is_empty: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -65,7 +68,7 @@ pub struct EndElement<'a> {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Reference<'a> {
-    pub original: &'a str,
+    pub raw: &'a str,
     pub resolved: &'a str,
 }
 
@@ -77,10 +80,9 @@ pub enum Event<'a> {
     EndElement(EndElement<'a>),
     Characters(&'a str),
     Reference(Reference<'a>),
-    // Comment(BytesText<'a>),
-    // CData(BytesText<'a>),
-    // Decl(BytesDecl<'a>),
-    // PI(BytesText<'a>),
-    // DocType(BytesText<'a>),
-    // Eof
+    // Comment,
+    // CData,
+    // PI,
+    // DocType,
+    // Decl,
 }
